@@ -3,8 +3,15 @@ def reverse_string(input_string):
     return input_string
 
 
+def allSubString(input_string):
+    if len(input_string) == 0:
+        return
+    
+    print(input_string)
+    
+    allSubString(input_string[1:])
+    allSubString(input_string[:-1])
+
+
 if __name__ == '__main__':
-    old_string = 'ajay'
-    test_string = ''.join(sorted(old_string))
-    print(old_string)
-    print(test_string)
+    allSubString('abc')

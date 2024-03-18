@@ -1,3 +1,6 @@
+from sortedcontainers import SortedSet
+
+
 def printBracket(count):
     printHelper('', 0, 0, count)
 
@@ -15,4 +18,13 @@ def printHelper(current, lCount, rCount, count):
 
 
 if __name__ == '__main__':
-    printBracket(3)
+    my_set = SortedSet()
+    
+    my_set.add('a')
+    my_set.add('b')
+    my_set.add('c')
+    my_set.add('d')
+    my_set.add('e')
+    
+    while my_set:
+        print(my_set.pop())

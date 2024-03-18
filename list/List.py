@@ -54,7 +54,7 @@ class LinkedList:
         slow.next = slow.next.next
         
         return self.head
-
+    
     def hasCycle(self, head: Optional[Node]) -> bool:
         slow = head
         fast = head
@@ -62,7 +62,7 @@ class LinkedList:
             slow = slow.next
             fast = fast.next.next
             if slow == fast: return True
-    
+        
         return False
     
     def reverse_in_group(self, root, k):
@@ -85,14 +85,66 @@ class LinkedList:
         
         self.head = prev
         return self.head
+    
+    def find_intersection_of_list(self, nodeA, nodeB):
+        if not nodeA and not nodeB:
+            return nodeA
+        
+        my_set = set()
+        
+        currentA = nodeA
+        currentB = nodeB
+        
+        while currentA:
+            my_set.add(currentA)
+            currentA = currentA.next
+        while currentB:
+            if currentB not in my_set:
+                my_set.add(currentB)
+                currentB = currentB.next
+            
+            else:
+                return currentB
+        
+        return None
+    
+    def rotatedList(self, node, k):
+        if not node:
+            return node
+        
+        prev = next = None
+        current = node
+        count = 0
+        
+        while current and count < k:
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+            count += 1
+        
+        if current:
+            node.next = self.rotatedList(next, k)
+        
+        self.head = prev
+        
+        return self.head
 
 
 if __name__ == '__main__':
     linked_list = LinkedList()
-    linked_list.insert(1)
-    linked_list.insert(2)
-    linked_list.insert(3)
-    linked_list.insert(4)
-    linked_list.insert(5)
-    print(linked_list.hasCycle(linked_list.head))
+    linked_list.head = Node(1)
+    linked_list.head.next = Node(2)
+    linked_list.head.next.next = Node(3)
+    linked_list.head.next.next.next = Node(4)
+    linked_list.head.next.next.next.next = Node(5)
     
+    new_linked_list = LinkedList()
+    
+    new_linked_list.head = linked_list.head.next.next
+    linked_list.print_list()
+    
+    print()
+    
+    linked_list.rotatedList(linked_list.head, 2)
+    linked_list.print_list()
