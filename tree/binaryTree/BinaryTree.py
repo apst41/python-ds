@@ -9,6 +9,12 @@ class Node:
         self.right = None
 
 
+class Pair:
+    def __init__(self, node, level):
+        self.node = node
+        self.level = level
+
+
 class BinaryTree:
     def __init__(self):
         self.root = None
