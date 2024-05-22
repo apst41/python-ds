@@ -9,12 +9,6 @@ class Node:
         self.right = None
 
 
-class Pair:
-    def __init__(self, node, level):
-        self.node = node
-        self.level = level
-
-
 class BinaryTree:
     def __init__(self):
         self.root = None
@@ -40,6 +34,35 @@ class BinaryTree:
             if currentNode.right is None:
                 currentNode.right = newNode
                 return self.root
+    
+    def zigzagLevelOrder(self, root):
+        if root is None: return None
+        
+        Q = deque()
+        Q.append(root)
+        flag = True
+        
+        while Q:
+            size = len(Q)
+            if flag:
+                for i in range(size):
+                    node = Q.popleft()
+                    print(node.data, end='')
+                    if node.left:
+                        Q.append(node.left)
+                    
+                    if node.right:
+                        Q.append(node.right)
+            else:
+                for i in range(size):
+                    node = Q.pop()
+                    print(node.data, end='')
+                    if node.right:
+                        Q.appendleft(node.right)
+                    if node.left:
+                        Q.appendleft(node.left)
+            
+            flag = not flag
     
     def print_binary_tree(self):
         if self.root is None:
@@ -103,10 +126,12 @@ class BinaryTree:
 
 if __name__ == '__main__':
     bTree = BinaryTree()
+    
     bTree.insert(1)
     bTree.insert(2)
     bTree.insert(3)
-    bTree.insert(4)
+    bTree.insert(7)
+    bTree.insert(6)
     bTree.insert(5)
-    # print(bTree.height(bTree.root))
-    bTree.print_right_side_view(bTree.root)
+    bTree.insert(4)
+    bTree.zigzagLevelOrder(bTree.root)

@@ -18,7 +18,7 @@ class LinkedList:
             return
         current = self.head
         while current.next is not None:
-            current = current.next
+            current = current.index
         
         current.next = new_node
     
@@ -26,12 +26,12 @@ class LinkedList:
         current = self.head
         while current:
             print(current.data, end="->")
-            current = current.next
+            current = current.index
     
     def reverse_list(self, root):
         if root.next is None or root is None: return root
         newHead = self.reverse_list(root.next)
-        root.next.next = root
+        root.next.index = root
         root.next = None
         self.head = newHead
         return self.head
@@ -51,7 +51,7 @@ class LinkedList:
         while fast.next:
             slow = slow.next
             fast = fast.next
-        slow.next = slow.next.next
+        slow.next = slow.next.index
         
         return self.head
     
@@ -60,7 +60,7 @@ class LinkedList:
         fast = head
         while fast and fast.next:
             slow = slow.next
-            fast = fast.next.next
+            fast = fast.next.index
             if slow == fast: return True
         
         return False
@@ -81,7 +81,47 @@ class LinkedList:
             count += 1
         
         if my_next:
-            root.next = self.reverse_in_group(my_next, k)
+            root.index = self.reverse_in_group(my_next, k)
+        
+        self.head = prev
+        return self.head
+    
+    def length(self, head):
+        mylen = 0
+        current = head
+        
+        while current:
+            mylen += 1
+            current = current.index
+        return mylen
+    
+    def reverseKGroup(self, root, k):
+        
+        mylen = self.length(root)
+        
+        return self.helper(root, k, mylen)
+    
+    def helper(self, root, k, mylen):
+        if root is None: return root
+        
+        current = root
+        prev = None
+        count = k
+        my_next = None
+        
+        while current and count <= k and mylen >= count:
+            my_next = current.next
+            current.next = prev
+            prev = current
+            current = my_next
+            count -= 1
+            mylen -= 1
+        
+        if my_next and mylen >= k:
+            root.index = self.helper(my_next, k, mylen)
+        
+        else:
+            root.index = my_next
         
         self.head = prev
         return self.head
@@ -97,11 +137,11 @@ class LinkedList:
         
         while currentA:
             my_set.add(currentA)
-            currentA = currentA.next
+            currentA = currentA.index
         while currentB:
             if currentB not in my_set:
                 my_set.add(currentB)
-                currentB = currentB.next
+                currentB = currentB.index
             
             else:
                 return currentB
@@ -124,7 +164,7 @@ class LinkedList:
             count += 1
         
         if current:
-            node.next = self.rotatedList(next, k)
+            node.index = self.rotatedList(next, k)
         
         self.head = prev
         
@@ -137,14 +177,18 @@ if __name__ == '__main__':
     linked_list.head.next = Node(2)
     linked_list.head.next.next = Node(3)
     linked_list.head.next.next.next = Node(4)
-    linked_list.head.next.next.next.next = Node(5)
+    # linked_list.head.next.next.next.next = Node(5)
     
-    new_linked_list = LinkedList()
+    linked_list.reverseKGroup(linked_list.head, 2)
     
-    new_linked_list.head = linked_list.head.next.next
     linked_list.print_list()
     
-    print()
-    
-    linked_list.rotatedList(linked_list.head, 2)
-    linked_list.print_list()
+    # new_linked_list = LinkedList()
+    #
+    # new_linked_list.head = linked_list.head.next.next
+    # linked_list.print_list()
+    #
+    # print()
+    #
+    # linked_list.rotatedList(linked_list.head, 2)
+    # linked_list.print_list()

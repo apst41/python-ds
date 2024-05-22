@@ -31,6 +31,6 @@ class Solution:
 
 if __name__ == '__name__':
     
-    input = [2, 3, 4, 5]
-    combinationSum(input, 10)
+    input = [2,5,2,1,2]
+    print(combinationSum(input, 5))
     

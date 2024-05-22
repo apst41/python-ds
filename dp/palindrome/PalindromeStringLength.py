@@ -25,7 +25,37 @@ class Solution(object):
                 if self.isPalindrome(string):
                     print(string, end=' ')
     
-   
+    def totalPalindrom(self, s):
+        ans = 0
+        
+        start = 0
+        end = 1
+        
+        for i in range(len(s)):
+            low = i
+            high = i + 1
+            
+            while low >= 0 and high < len(s) and s[low] == s[high]:
+                condition = high - low + 1
+                if condition > end:
+                    start = low
+                    end = high - low + 1
+                    ans += 1
+                low -= 1
+                high += 1
+            
+            low = i
+            high = i
+            
+            while low >= 0 and high < len(s) and s[low] == s[high]:
+                condition = high - low + 1
+                if condition > end:
+                    start = low
+                    end = high - low + 1
+                    ans += 1
+                low -= 1
+                high += 1
+        return s[start:end]
     
     def isPalindrome(self, s):
         low = 0
@@ -40,4 +70,4 @@ class Solution(object):
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.palindromeStringLength('ajay'))
+    print(s.totalPalindrom("ajay"))

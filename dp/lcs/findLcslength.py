@@ -30,10 +30,10 @@ class Solution:
             return self.memo[key]
         
         if f[m - 1] == s[n - 1]:
-            ans = 1 + self.helper(f, s, m - 1, n - 1)
+            ans = 1 + self.helperMemo(f, s, m - 1, n - 1)
         
         else:
-            ans = max(self.helper(f, s, m - 1, n), self.helper(f, s, m, n - 1))
+            ans = max(self.helperMemo(f, s, m - 1, n), self.helperMemo(f, s, m, n - 1))
         
         self.memo[key] = ans
         return ans

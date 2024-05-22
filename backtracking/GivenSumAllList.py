@@ -1,28 +1,45 @@
-from collections import defaultdict
+from queue import PriorityQueue
+from typing import List
 
-ans = []
+
+class Node:
+    def __init__(self, value, count):
+        self.value = value
+        self.count = count
 
 
-def helper(nums, index, sum, currentSum, currentList):
-    if currentSum > sum: return None
-    if currentSum == sum:
-        ans.append(currentList[:])
+class Solution:
+    setattr(Node, "__lt__", lambda self, other: self.count <= other.count)
     
-    for i in range(index, len(nums)):
-        currentList.append(nums[i])
-        helper(nums, i + 1, sum, currentSum + nums[i], currentList)
-        currentList.pop()
-
-
-def givenSumAllList(nums, sum):
-    my_list = []
-    helper(nums, 0, sum, 0, my_list)
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        
+        hash_map = {}
+        pq = PriorityQueue()
+        
+        for i in nums:
+            hash_map[i] = 1 + hash_map.get(i, 0)
+        
+        for v, c in hash_map.items():
+            
+            if pq.qsize() < k:
+                pq.put(Node(v, c))
+            
+            else:
+                if pq.queue[0].count < c:
+                    pq.get()
+                    pq.put(Node(v, c))
+        
+        ans = []
+        
+        while pq.qsize():
+            ans.append(pq.get().count)
+        return ans
 
 
 if __name__ == "__main__":
-    givenSumAllList([2, 3, 8, 10, 17, 12, 15, 5], 11)
-
-    for i in ans:
+    sol = Solution()
+    arr = [1, 1, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10]
     
+    my = sol.topKFrequent(arr, 2)
+    for i in my:
         print(i)
-    

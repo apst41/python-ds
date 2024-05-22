@@ -42,9 +42,7 @@ class Graph:
                 self.dfs_util(neighbour, my_set)
     
     def dfs_recursion(self, startNode):
-        
         my_set = set()
-        
         self.dfs_util(startNode, my_set)
 
 
